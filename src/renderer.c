@@ -25,8 +25,8 @@ void testFPS2DMap(){ // Render2D test relative to the first person view
 	p1 = vecSub(&p1,&player.position);
 	p2 = vecSub(&p2,&player.position);
 	//Rotate points around players view
-	VECTOR2 t1 = rotatedVector(&p1,player.yaw);
-	VECTOR2 t2 = rotatedVector(&p2,player.yaw);
+	VECTOR2 t1 = rotatedVector(&p1,-player.yaw);
+	VECTOR2 t2 = rotatedVector(&p2,-player.yaw);
 	//Draw those points on the map
 	SDL_SetRenderDrawColor(renderer,255,255,255,255);
 	//Points are leative to the players view
