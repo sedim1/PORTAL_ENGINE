@@ -1,0 +1,33 @@
+#Rules for the portal renderer
+To simulate nonconvex geometri, each par must by convex, making the illusion of making it a nonconvex geometry
+
+
+#For drawing with projection
+
+Known constants defined by developer
+HFOV, YFOV
+
+Vertex Positioning
+All vertices of walls are transformed into first person view, meaning we are just actually being rotated relative to the players position:
+
+Global position - v(x,y);
+Transoform relative to player position - t(vx - px,vy -py);
+Rotate them around the players view - 
+	where
+		transformX = tx * cos(angle) - ty * sin(angle)
+		transformZ = tx * sin(angle) + ty * cos(angle)
+
+Once this has been done, apply the perspective projection int 2d screen cords
+        xScale = HFOV/transformZ; yScale = VFOV/transformZ;
+	ScreenX = SCREEN_WIDTH/2 - (transformX * xScale);
+	ScreenY = SCREEN_HEIGHT/2 - (offset * yScale) //Take account the offset of player height and yaw of floor wall 
+
+
+IMPORTANT NOTE: AFTER DOING A TRANSFORM, ADJUST THE TRANSFORM RELATIVE POSITION,
+ relative pos = pos + transformed;
+#PORTAL SYSTEM - RULES TO FOLLOW
+	SECTORS
+		Section of the map with n Points to form walls, eac one with floors and ceiling
+		Walls (SEGMENTS) are points that interconect each other
+		the walls of a sector are defined in a clockwise direction
+		Points considered as portals are the ones who has a neighbor sector
