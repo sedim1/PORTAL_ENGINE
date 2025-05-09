@@ -11,9 +11,11 @@ void HandleEvents();
 SDL_Window* window = NULL;
 //The surface contained by the window
 SDL_Renderer* renderer = NULL;
+int drawMode = 1;
 bool isRunning = true;
 float deltaTime = 0.0f;
 Keyboard key = {0,0,0,0,0,0,0,0,0,0};
+
 
 int main(int argc, char* argv[]){
 	if(!Init())
@@ -49,6 +51,8 @@ bool Init(){
 
 void mainLoop(){
 	float lastTime = 0.0f;
+	int fps = 0;
+	float lastFrameTime = 0.0f;
 	playerInit( &( (VECTOR2){0.0f,0.0f} ) ,0.0f,0.0f,0.0f);
 	while(isRunning){
 		float currentTime = (float)(SDL_GetTicks()/1000.0f);
@@ -59,6 +63,12 @@ void mainLoop(){
 		movePlayer();
 		//Start rendering after processing the game logic
 		Display();
+		if(currentTime - lastFrameTime > 1.0f){
+			printf("FPS: %d\n",fps);
+			fps = 0;
+			lastFrameTime = currentTime;
+		}
+		else{ fps++; }
 	}
 }
 
@@ -66,7 +76,16 @@ void Display(){
 	SDL_SetRenderDrawColor(renderer,0,0,0,255); //Clear screen color
 	SDL_RenderClear(renderer); //Clear 
 	//Rendering logic goes here
-	testFPS2DMap();
+	switch (drawMode){
+		case 1:
+			testFPS2DMap();
+			break;
+		case 2:
+			test3DRender();
+			break;
+		default:
+			break;
+	}
 	SDL_RenderPresent(renderer); //Render the final image final image
 }
 
@@ -88,6 +107,12 @@ void HandleEvents(){
 				switch(e.key.keysym.sym){
 					case SDLK_ESCAPE:
 						isRunning = false;
+						break;
+					case SDLK_1:
+						drawMode = 1;
+						break;
+					case SDLK_2:
+						drawMode = 2;
 						break;
 					case SDLK_q:
 						key.q = 1;
