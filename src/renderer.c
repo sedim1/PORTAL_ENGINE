@@ -4,13 +4,15 @@ extern SDL_Window* window;
 extern SDL_Renderer* renderer;
 extern Player player;
 
+
+
 bool outsideScreen(VECTOR2I* s){
 	//return ( (s->x < 0 || s->x > SW) && (s->y < 0 || s->y > SH)  );
 	return ( s->x < 0 || s->x > SW || s->y < 0 || s->y > SH );
 }
 
 void pixel(int x,int y,RGB* color){
-	//if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT) return;
+	if (x < 0 || x >= SW || y < 0 || y >= SH) return;
 	const SDL_Rect rect = {x*PIXELSCALE,y*PIXELSCALE,PIXELSCALE,PIXELSCALE};
 	SDL_SetRenderDrawColor(renderer,color->r,color->g,color->b,255);
 	SDL_RenderFillRect(renderer,&rect);
@@ -98,11 +100,14 @@ void drawFillWall(VECTOR2I* bottom1, VECTOR2I* bottom2, VECTOR2I* top1, VECTOR2I
 		int x = (int)bottom.x;
 		int yStart = top.y; if(yStart < 0) { yStart = 0; }
 		int yEnd = bottom.y; if(yEnd > SH ) { yEnd = SH; }
-		if( x != lastX && x >= 0 && x < SW ){
+		//if( x != lastX && x >= 0 && x < SW ){
 			for( int y = yStart; y <= yEnd; y+=1){
-				pixel(x,y,color);
+				if(yStart == y || y == yEnd || i == 0 || i == steps)
+					pixel(x,y,&((RGB){255,255,255}));
+				else
+					pixel(x,y,color);
 			}
-		}
+		//}
 		bottom = vecAdd(&bottom,&bottomInc);
 		top = vecAdd(&top,&topInc);
 		lastX = x;
@@ -145,9 +150,5 @@ void test3DRender(){
 		printf("bottom1 %d %d\n",bottom1.x,bottom1.y);
 		printf("bottom2 %d %d\n",bottom2.x,bottom2.y);*/
 		drawFillWall(&bottom1, &bottom2, &top1, &top2,&color);
-		DDA(top1.x,top1.y,top2.x,top2.y,&color2);
-		DDA(bottom1.x,bottom1.y,bottom2.x,bottom2.y,&color2);
-		DDA(top1.x,top1.y,bottom1.x,bottom1.y,&color2);
-		DDA(top2.x,top2.y,bottom2.x,bottom2.y,&color2);
 	}
 }

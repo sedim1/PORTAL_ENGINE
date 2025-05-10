@@ -6,11 +6,11 @@
 #include <stdbool.h>
 #include <math.h>
 #include<SDL2/SDL.h>
-#define SW 256
-#define SH 180
-#define PIXELSCALE 4
-#define SCREEN_WIDTH (SW*PIXELSCALE)
-#define SCREEN_HEIGHT (SH*PIXELSCALE)
+#define SW 100
+#define SH 100
+#define PIXELSCALE 8
+#define SCREEN_WIDTH (SW * PIXELSCALE)
+#define SCREEN_HEIGHT (SH * PIXELSCALE)
 
 #define PI 3.14159265358979323846f
 
@@ -55,6 +55,19 @@ typedef struct{
 	float pitch; // x angle;
 	float yaw; //y angle
 }Player;
+
+
+typedef struct {
+	VECTOR2 p1, p2;
+	int neighborSector; //Saves the id of 
+}WALL;
+
+typedef struct{
+	int id;
+	int nWalls;
+	WALL* walls;
+	int zfloor, zceiling;
+}SECTOR;
 
 
 
