@@ -15,11 +15,12 @@ int drawMode = 1;
 bool isRunning = true;
 float deltaTime = 0.0f;
 Keyboard key = {0,0,0,0,0,0,0,0,0,0};
-
+MAP map;
 
 int main(int argc, char* argv[]){
 	if(!Init())
 		return -1;
+  map = loadMap("Levels/SimpleLevel.txt");
 	mainLoop();
 	End();
 	return 0;
@@ -93,6 +94,7 @@ void End(){
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
+  freeMap(&map);
 	printf("Exiting\n");
 }
 

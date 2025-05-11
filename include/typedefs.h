@@ -3,11 +3,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include <math.h>
 #include<SDL2/SDL.h>
 #define SW 100
-#define SH 100
+#define SH 80
 #define PIXELSCALE 8
 #define SCREEN_WIDTH (SW * PIXELSCALE)
 #define SCREEN_HEIGHT (SH * PIXELSCALE)
@@ -69,6 +70,11 @@ typedef struct{
 	int zfloor, zceiling;
 }SECTOR;
 
+typedef struct{
+  SECTOR* sectors;
+  int* visitedSectors;
+  int nSectors;
+}MAP;
 
 
 #endif

@@ -100,14 +100,14 @@ void drawFillWall(VECTOR2I* bottom1, VECTOR2I* bottom2, VECTOR2I* top1, VECTOR2I
 		int x = (int)bottom.x;
 		int yStart = top.y; if(yStart < 0) { yStart = 0; }
 		int yEnd = bottom.y; if(yEnd > SH ) { yEnd = SH; }
-		//if( x != lastX && x >= 0 && x < SW ){
+		if( x != lastX && x >= 0 && x < SW ){
 			for( int y = yStart; y <= yEnd; y+=1){
 				if(yStart == y || y == yEnd || i == 0 || i == steps)
 					pixel(x,y,&((RGB){255,255,255}));
 				else
 					pixel(x,y,color);
 			}
-		//}
+		}
 		bottom = vecAdd(&bottom,&bottomInc);
 		top = vecAdd(&top,&topInc);
 		lastX = x;
